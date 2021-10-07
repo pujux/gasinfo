@@ -1,0 +1,37 @@
+/* purgecss start ignore */
+@tailwind base;
+@tailwind components;
+/* purgecss end ignore */
+@tailwind utilities;
+
+* {
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: background-color, border-color, color 150ms;
+}
+
+.refreshingX {
+  animation: refreshX 1.5s cubic-bezier(0.48, 0.01, 0.55, 0.71) infinite;
+}
+
+.refreshingY {
+  animation: refreshY 1.5s cubic-bezier(0.48, 0.01, 0.55, 0.71) infinite;
+}
+
+@keyframes refreshX {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes refreshY {
+  0% {
+    height: 0%;
+  }
+  100% {
+    height: 100%;
+  }
+}
