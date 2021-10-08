@@ -49,42 +49,6 @@ const Home = () => {
     }
   };
 
-  // const fetchGasstation = async () => {
-  //   const { result } = await fetch(
-  //     "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=B38IETTAG8C6WMXV6AYWA8QWHCYKVNGB5U"
-  //   )
-  //     .then((res) => res.json())
-  //     .catch((err) => console.error("(╯°□°)╯︵ ┻━┻", err));
-  //   if (result && !blocks.find((b) => b.lastBlock == result.LastBlock)) {
-  //     const data: GasData = {
-  //       fastGasPrice: parseFloat(result.FastGasPrice),
-  //       lastBlock: parseFloat(result.LastBlock),
-  //       proposeGasPrice: parseFloat(result.ProposeGasPrice),
-  //       safeGasPrice: parseFloat(result.SafeGasPrice),
-  //       gasUsedRatio: result.gasUsedRatio,
-  //       suggestBaseFee: parseFloat(result.suggestBaseFee),
-  //     };
-  //     const timeData = (
-  //       await Promise.all(
-  //         [data.fastGasPrice, data.proposeGasPrice, data.safeGasPrice].map(
-  //           (gwei) =>
-  //             fetch(
-  //               `https://api.etherscan.io/api?module=gastracker&action=gasestimate&gasprice=${
-  //                 gwei * 1e9
-  //               }&apikey=B38IETTAG8C6WMXV6AYWA8QWHCYKVNGB5U`
-  //             )
-  //               .then((res) => res.json())
-  //               .catch((err) => console.error("(╯°□°)╯︵ ┻━┻", err))
-  //         )
-  //       )
-  //     ).map(({ result }) => (typeof result === "number" ? result : null));
-  //     data.timeEstimates = timeData;
-  //     blocks = [...blocks.slice(-24), { ...data, receivedAt: new Date() }];
-  //     setLastBlocks(blocks);
-  //     setGasData(data);
-  //   }
-  // };
-
   const fetchEthereumPrice = async () => {
     const response = await fetch(
       "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd"

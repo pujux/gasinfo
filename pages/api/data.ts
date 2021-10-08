@@ -2,12 +2,11 @@ import { fetch } from "cross-fetch";
 import firestore from "../../lib/firebase";
 
 let lastTimeStamp = 0,
+  isUpdating = false,
   lastBlock = 0,
   isRefetching = false;
 
-const MIN_INTERVAL = 5e3;
-const META_COLLECTION =
-    process.env.NODE_ENV === "production" ? "meta" : "meta_dev",
+const MIN_INTERVAL = 5e3,
   BLOCKS_COLLECTION =
     process.env.NODE_ENV === "production" ? "blocks" : "blocks_dev";
 
@@ -23,32 +22,20 @@ interface GasData {
 }
 
 export default async function getData(req, res) {
-  if (lastTimeStamp + MIN_INTERVAL < Date.now()) {
-    const { isUpdating } = await (
-      await firestore.collection(META_COLLECTION).doc("meta").get()
-    ).data();
-    if (!isUpdating) {
-      lastTimeStamp = Date.now();
+  if (lastTimeStamp + MIN_INTERVAL < Date.now() && !isUpdating) {
+    lastTimeStamp = Date.now();
+    isUpdating = true;
+    info("refetching data");
+    const data = await fetchData();
+    if (data) {
+      lastBlock = data.lastBlock;
       await firestore
-        .collection(META_COLLECTION)
-        .doc("meta")
-        .update({ isUpdating: true });
-      info("refetching data");
-      const data = await fetchData();
-      if (data) {
-        console.log(data);
-        lastBlock = data.lastBlock;
-        await firestore
-          .collection(BLOCKS_COLLECTION)
-          .doc(data.lastBlock.toString())
-          .set(data);
-      }
-      await firestore
-        .collection(META_COLLECTION)
-        .doc("meta")
-        .update({ isUpdating: false });
-      info("done refetching");
+        .collection(BLOCKS_COLLECTION)
+        .doc(data.lastBlock.toString())
+        .set(data);
     }
+    isUpdating = false;
+    info("done refetching");
   }
   await firestore
     .collection(BLOCKS_COLLECTION)

@@ -11,11 +11,11 @@
 }
 
 .refreshingX {
-  animation: refreshX 5s cubic-bezier(0.48, 0.01, 0.55, 0.71) infinite;
+  animation: refreshX 10s cubic-bezier(0.48, 0.01, 0.55, 0.71) infinite;
 }
 
 .refreshingY {
-  animation: refreshY 5s cubic-bezier(0.48, 0.01, 0.55, 0.71) infinite;
+  animation: refreshY 10s cubic-bezier(0.48, 0.01, 0.55, 0.71) infinite;
 }
 
 @keyframes refreshX {
