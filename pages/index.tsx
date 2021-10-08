@@ -17,6 +17,7 @@ const Home = () => {
     safeGasPrice: NaN,
     gasUsedRatio: "",
     suggestBaseFee: NaN,
+    timeEstimates: [],
   });
   const [price, setPrice] = useState(NaN);
   const [lastBlocks, setLastBlocks] = useState([]);
