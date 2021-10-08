@@ -32,7 +32,7 @@ const Home = () => {
     fetchGasstation();
     fetchEthereumPrice();
 
-    gasInterval = setInterval(fetchGasstation, 5e2);
+    gasInterval = setInterval(fetchGasstation, 5e3);
     backgroundAnimateXRef.current.classList.add("refreshingX");
     backgroundAnimateYRef.current.classList.add("refreshingY");
     priceInterval = setInterval(fetchEthereumPrice, 12e4);
@@ -43,40 +43,49 @@ const Home = () => {
   }, []);
 
   const fetchGasstation = async () => {
-    const { result } = await fetch(
-      "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=B38IETTAG8C6WMXV6AYWA8QWHCYKVNGB5U"
-    )
-      .then((res) => res.json())
-      .catch((err) => console.error("(╯°□°)╯︵ ┻━┻", err));
-    if (result && !blocks.find((b) => b.lastBlock == result.LastBlock)) {
-      const data: GasData = {
-        fastGasPrice: parseFloat(result.FastGasPrice),
-        lastBlock: parseFloat(result.LastBlock),
-        proposeGasPrice: parseFloat(result.ProposeGasPrice),
-        safeGasPrice: parseFloat(result.SafeGasPrice),
-        gasUsedRatio: result.gasUsedRatio,
-        suggestBaseFee: parseFloat(result.suggestBaseFee),
-      };
-      const timeData = (
-        await Promise.all(
-          [data.fastGasPrice, data.proposeGasPrice, data.safeGasPrice].map(
-            (gwei) =>
-              fetch(
-                `https://api.etherscan.io/api?module=gastracker&action=gasestimate&gasprice=${
-                  gwei * 1e9
-                }&apikey=B38IETTAG8C6WMXV6AYWA8QWHCYKVNGB5U`
-              )
-                .then((res) => res.json())
-                .catch((err) => console.error("(╯°□°)╯︵ ┻━┻", err))
-          )
-        )
-      ).map(({ result }) => (typeof result === "number" ? result : null));
-      data.timeEstimates = timeData;
-      blocks = [...blocks.slice(-24), { ...data, receivedAt: new Date() }];
-      setLastBlocks(blocks);
-      setGasData(data);
+    const res = await fetch("/api/data").then((res) => res.json());
+    if (res.history && res.data) {
+      console.log(res);
+      setGasData(res.data);
+      setLastBlocks(res.history);
     }
   };
+
+  // const fetchGasstation = async () => {
+  //   const { result } = await fetch(
+  //     "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=B38IETTAG8C6WMXV6AYWA8QWHCYKVNGB5U"
+  //   )
+  //     .then((res) => res.json())
+  //     .catch((err) => console.error("(╯°□°)╯︵ ┻━┻", err));
+  //   if (result && !blocks.find((b) => b.lastBlock == result.LastBlock)) {
+  //     const data: GasData = {
+  //       fastGasPrice: parseFloat(result.FastGasPrice),
+  //       lastBlock: parseFloat(result.LastBlock),
+  //       proposeGasPrice: parseFloat(result.ProposeGasPrice),
+  //       safeGasPrice: parseFloat(result.SafeGasPrice),
+  //       gasUsedRatio: result.gasUsedRatio,
+  //       suggestBaseFee: parseFloat(result.suggestBaseFee),
+  //     };
+  //     const timeData = (
+  //       await Promise.all(
+  //         [data.fastGasPrice, data.proposeGasPrice, data.safeGasPrice].map(
+  //           (gwei) =>
+  //             fetch(
+  //               `https://api.etherscan.io/api?module=gastracker&action=gasestimate&gasprice=${
+  //                 gwei * 1e9
+  //               }&apikey=B38IETTAG8C6WMXV6AYWA8QWHCYKVNGB5U`
+  //             )
+  //               .then((res) => res.json())
+  //               .catch((err) => console.error("(╯°□°)╯︵ ┻━┻", err))
+  //         )
+  //       )
+  //     ).map(({ result }) => (typeof result === "number" ? result : null));
+  //     data.timeEstimates = timeData;
+  //     blocks = [...blocks.slice(-24), { ...data, receivedAt: new Date() }];
+  //     setLastBlocks(blocks);
+  //     setGasData(data);
+  //   }
+  // };
 
   const fetchEthereumPrice = async () => {
     const response = await fetch(
@@ -181,14 +190,14 @@ const Home = () => {
         </div>
         <div className="mx-4 mb-16 md:mx-0">
           <h1 className="mb-4 text-3xl md:text-center text-primaryTextLight dark:text-primaryTextDark">
-            Last 25 Blocks received
+            Gas Price History
           </h1>
           <div className="max-w-4xl mx-auto">
             <Line
               type="line"
               data={{
                 labels: lastBlocks.map(({ receivedAt }) =>
-                  receivedAt.toLocaleTimeString()
+                  new Date(receivedAt).toLocaleTimeString()
                 ),
                 datasets: [
                   {
