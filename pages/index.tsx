@@ -6,19 +6,21 @@ import Timespan from "readable-timespan";
 
 const { parse } = new Timespan();
 
+interface GasData {
+  fastGasPrice: number;
+  lastBlock: number;
+  proposeGasPrice: number;
+  safeGasPrice: number;
+  gasUsedRatio: string;
+  suggestBaseFee: number;
+  timeEstimates?: any[];
+}
+
 const Home = () => {
   let gasInterval,
     priceInterval,
     blocks = [];
-  const [gasData, setGasData] = useState({
-    fastGasPrice: NaN,
-    lastBlock: NaN,
-    proposeGasPrice: NaN,
-    safeGasPrice: NaN,
-    gasUsedRatio: "",
-    suggestBaseFee: NaN,
-    timeEstimates: [],
-  });
+  const [gasData, setGasData] = useState<GasData>();
   const [price, setPrice] = useState(NaN);
   const [lastBlocks, setLastBlocks] = useState([]);
   const backgroundAnimateXRef = useRef<HTMLDivElement>();
@@ -47,7 +49,7 @@ const Home = () => {
       .then((res) => res.json())
       .catch((err) => console.error("(╯°□°)╯︵ ┻━┻", err));
     if (result && !blocks.find((b) => b.lastBlock == result.LastBlock)) {
-      const data = {
+      const data: GasData = {
         fastGasPrice: parseFloat(result.FastGasPrice),
         lastBlock: parseFloat(result.LastBlock),
         proposeGasPrice: parseFloat(result.ProposeGasPrice),
@@ -89,17 +91,17 @@ const Home = () => {
     <div className="bg-primaryBackgroundLight dark:bg-primaryBackgroundDark">
       <Layout
         title={
-          !gasData.fastGasPrice ||
-          !gasData.proposeGasPrice ||
-          isNaN(gasData.fastGasPrice) ||
-          isNaN(gasData.proposeGasPrice)
+          !gasData?.fastGasPrice ||
+          !gasData?.proposeGasPrice ||
+          isNaN(gasData?.fastGasPrice) ||
+          isNaN(gasData?.proposeGasPrice)
             ? undefined
-            : gasData.fastGasPrice.toFixed(0) ===
-              gasData.proposeGasPrice.toFixed(0)
-            ? `${gasData.proposeGasPrice.toFixed(0)} Gwei`
-            : `${gasData.fastGasPrice.toFixed(
+            : gasData?.fastGasPrice.toFixed(0) ===
+              gasData?.proposeGasPrice.toFixed(0)
+            ? `${gasData?.proposeGasPrice.toFixed(0)} Gwei`
+            : `${gasData?.fastGasPrice.toFixed(
                 0
-              )}-${gasData.proposeGasPrice.toFixed(0)} Gwei`
+              )}-${gasData?.proposeGasPrice.toFixed(0)} Gwei`
         }
       >
         <div className="mx-4 mb-16 md:mx-0">
@@ -118,10 +120,10 @@ const Home = () => {
                   Rapid
                 </h2>
                 <h2 className="text-2xl font-bold text-green-500 md:text-5xl md:my-4">
-                  {gasData.fastGasPrice?.toFixed(0)}
+                  {gasData?.fastGasPrice?.toFixed(0)}
                 </h2>
                 <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
-                  ${((gasData.fastGasPrice * price) / 1e9).toFixed(10)}
+                  ${((gasData?.fastGasPrice * price) / 1e9).toFixed(10)}
                 </h2>
               </div>
               <div className="relative flex items-center justify-between p-4 overflow-hidden border border-solid md:flex-col rounded-xl border-accentText bg-secondaryTextDark dark:bg-secondaryTextLight">
@@ -137,10 +139,10 @@ const Home = () => {
                   Fast
                 </h2>
                 <h2 className="z-10 text-2xl font-bold md:text-5xl text-accentText md:my-4">
-                  {gasData.proposeGasPrice?.toFixed(0)}
+                  {gasData?.proposeGasPrice?.toFixed(0)}
                 </h2>
                 <h2 className="z-10 text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
-                  ${((gasData.proposeGasPrice * price) / 1e9).toFixed(10)}
+                  ${((gasData?.proposeGasPrice * price) / 1e9).toFixed(10)}
                 </h2>
               </div>
               <div className="flex items-center justify-between p-4 overflow-hidden border border-solid md:flex-col rounded-xl border-secondaryTextLight dark:border-secondaryTextDark bg-secondaryTextDark dark:bg-secondaryTextLight">
@@ -148,10 +150,10 @@ const Home = () => {
                   Standard
                 </h2>
                 <h2 className="text-2xl font-bold text-blue-600 md:text-5xl md:my-4">
-                  {gasData.safeGasPrice?.toFixed(0)}
+                  {gasData?.safeGasPrice?.toFixed(0)}
                 </h2>
                 <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
-                  ${((gasData.safeGasPrice * price) / 1e9).toFixed(10)}
+                  ${((gasData?.safeGasPrice * price) / 1e9).toFixed(10)}
                 </h2>
               </div>
             </div>
@@ -159,7 +161,7 @@ const Home = () => {
               Ethereum: ${price}
             </h1>
             <h1 className="text-md text-secondaryTextLight dark:text-secondaryTextDark">
-              Block: #{gasData.lastBlock}
+              Block: #{gasData?.lastBlock}
             </h1>
           </div>
         </div>
