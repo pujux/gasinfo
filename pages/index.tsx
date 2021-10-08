@@ -17,8 +17,7 @@ interface GasData {
 }
 
 const Home = () => {
-  let gasInterval,
-    priceInterval,
+  let priceInterval,
     blocks = [];
   const [gasData, setGasData] = useState<GasData>();
   const [price, setPrice] = useState(NaN);
@@ -27,17 +26,16 @@ const Home = () => {
   const backgroundAnimateYRef = useRef<HTMLDivElement>();
 
   useEffect(() => {
-    if (priceInterval || gasInterval)
-      return console.log("already defined intervals");
+    if (priceInterval) return console.log("already defined intervals");
     fetchGasstation();
     fetchEthereumPrice();
 
-    gasInterval = setInterval(fetchGasstation, 5e3);
     backgroundAnimateXRef.current.classList.add("refreshingX");
     backgroundAnimateYRef.current.classList.add("refreshingY");
+    backgroundAnimateXRef.current.onanimationiteration = fetchGasstation;
+    backgroundAnimateYRef.current.onanimationiteration = fetchGasstation;
     priceInterval = setInterval(fetchEthereumPrice, 12e4);
     return () => {
-      clearInterval(gasInterval);
       clearInterval(priceInterval);
     };
   }, []);

@@ -53,6 +53,7 @@ export default async function getData(req, res) {
   await firestore
     .collection(BLOCKS_COLLECTION)
     .orderBy("lastBlock")
+    .limitToLast(25)
     .get()
     .then((snap) =>
       res.status(200).json({
