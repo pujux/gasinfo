@@ -6,6 +6,10 @@ let lastTimeStamp = 0,
   isRefetching = false;
 
 const MIN_INTERVAL = 5e3;
+const META_COLLECTION =
+    process.env.NODE_ENV === "production" ? "meta" : "meta_dev",
+  BLOCKS_COLLECTION =
+    process.env.NODE_ENV === "production" ? "blocks" : "blocks_dev";
 
 interface GasData {
   fastGasPrice?: number;
@@ -21,30 +25,34 @@ interface GasData {
 export default async function getData(req, res) {
   if (lastTimeStamp + MIN_INTERVAL < Date.now()) {
     const { isUpdating } = await (
-      await firestore.collection("meta").doc("meta").get()
+      await firestore.collection(META_COLLECTION).doc("meta").get()
     ).data();
     if (!isUpdating) {
       lastTimeStamp = Date.now();
       await firestore
-        .collection("meta")
+        .collection(META_COLLECTION)
         .doc("meta")
         .update({ isUpdating: true });
       info("refetching data");
       const data = await fetchData();
       if (data) {
+        console.log(data);
         lastBlock = data.lastBlock;
-        await firestore.collection("blocks").add(data);
+        await firestore
+          .collection(BLOCKS_COLLECTION)
+          .doc(data.lastBlock.toString())
+          .set(data);
       }
       await firestore
-        .collection("meta")
+        .collection(META_COLLECTION)
         .doc("meta")
         .update({ isUpdating: false });
       info("done refetching");
     }
   }
   await firestore
-    .collection("blocks")
-    .orderBy("receivedAt")
+    .collection(BLOCKS_COLLECTION)
+    .orderBy("lastBlock")
     .get()
     .then((snap) =>
       res.status(200).json({

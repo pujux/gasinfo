@@ -44,8 +44,8 @@ const Home = () => {
 
   const fetchGasstation = async () => {
     const res = await fetch("/api/data").then((res) => res.json());
+    console.log(res);
     if (res.history && res.data) {
-      console.log(res);
       setGasData(res.data);
       setLastBlocks(res.history);
     }
