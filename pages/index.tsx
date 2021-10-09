@@ -86,11 +86,11 @@ const Home = () => {
               </h2>
             </div>
             <div className="grid grid-cols-1 gap-6 mb-4 md:gap-12 md:grid-cols-3">
-              <div className="flex items-center justify-between p-4 overflow-hidden border border-solid md:flex-col rounded-xl border-tertiaryBackgroundLight dark:border-tertiaryBackgroundDark bg-secondaryTextDark dark:bg-secondaryTextLight">
-                <h2 className="w-10 text-lg font-bold md:text-xl md:w-auto text-primaryTextLight dark:text-primaryTextDark">
+              <div className="flex-col items-center justify-between p-4 overflow-hidden text-center border border-solid rounded-xl border-tertiaryBackgroundLight dark:border-tertiaryBackgroundDark bg-secondaryTextDark dark:bg-secondaryTextLight">
+                <h2 className="text-xl font-bold md:w-auto text-primaryTextLight dark:text-primaryTextDark">
                   Fast
                 </h2>
-                <h2 className="text-2xl font-bold text-green-500 md:text-5xl md:my-4">
+                <h2 className="text-3xl font-bold text-green-500 md:text-5xl md:my-4">
                   {gasData?.fastGasPrice?.toFixed(0)}
                 </h2>
                 <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
@@ -107,7 +107,7 @@ const Home = () => {
                   {(((gasData?.fastGasPrice * price) / 1e9) * 2e4).toFixed(2)}
                 </h2>
               </div>
-              <div className="relative flex items-center justify-between p-4 overflow-hidden border border-solid md:flex-col rounded-xl border-accentText bg-secondaryTextDark dark:bg-secondaryTextLight">
+              <div className="relative flex-col items-center justify-between p-4 overflow-hidden text-center border border-solid rounded-xl border-accentText bg-secondaryTextDark dark:bg-secondaryTextLight">
                 <div
                   ref={backgroundAnimateXRef}
                   className="absolute bottom-0 left-0 z-0 h-full md:hidden opacity-20 bg-accentText"
@@ -116,10 +116,10 @@ const Home = () => {
                   ref={backgroundAnimateYRef}
                   className="absolute bottom-0 left-0 z-0 hidden w-full md:block opacity-20 bg-accentText"
                 ></div>
-                <h2 className="z-10 w-10 text-lg font-bold md:text-xl md:w-auto text-primaryTextLight dark:text-primaryTextDark">
+                <h2 className="z-10 text-xl font-bold md:w-auto text-primaryTextLight dark:text-primaryTextDark">
                   Standard
                 </h2>
-                <h2 className="z-10 text-2xl font-bold md:text-5xl text-accentText md:my-4">
+                <h2 className="z-10 text-3xl font-bold md:text-5xl text-accentText md:my-4">
                   {gasData?.proposeGasPrice?.toFixed(0)}
                 </h2>
                 <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
@@ -138,11 +138,11 @@ const Home = () => {
                   )}
                 </h2>
               </div>
-              <div className="flex items-center justify-between p-4 overflow-hidden border border-solid md:flex-col rounded-xl border-secondaryTextLight dark:border-secondaryTextDark bg-secondaryTextDark dark:bg-secondaryTextLight">
-                <h2 className="w-10 text-lg font-bold md:text-xl md:w-auto text-primaryTextLight dark:text-primaryTextDark">
+              <div className="flex-col items-center justify-between p-4 overflow-hidden text-center border border-solid rounded-xl border-secondaryTextLight dark:border-secondaryTextDark bg-secondaryTextDark dark:bg-secondaryTextLight">
+                <h2 className="text-xl font-bold md:w-auto text-primaryTextLight dark:text-primaryTextDark">
                   Slow
                 </h2>
-                <h2 className="text-2xl font-bold text-blue-600 md:text-5xl md:my-4">
+                <h2 className="text-3xl font-bold text-blue-600 md:text-5xl md:my-4">
                   {gasData?.safeGasPrice?.toFixed(0)}
                 </h2>
                 <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
