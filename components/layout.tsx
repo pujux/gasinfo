@@ -37,7 +37,7 @@ function Layout({ title, children }: LayoutProps) {
           name="description"
           content="Ethereum gas price recommendations based on etherscan.io"
         ></meta>
-        <meta name="image" content="https://ethgas.org/logo.png"></meta>
+        <meta name="image" content="https://gasinfo.io/logo.png"></meta>
         <meta name="twitter:card" content="summary"></meta>
         <meta
           name="twitter:title"
@@ -49,7 +49,7 @@ function Layout({ title, children }: LayoutProps) {
         ></meta>
         <meta
           name="twitter:image:src"
-          content="https://ethgas.org/logo.png"
+          content="https://gasinfo.io/logo.png"
         ></meta>
         <meta name="twitter:creator" content="@0xPUF17640"></meta>
         <meta name="og:title" content="EthGas - Gas Price Recommender"></meta>
@@ -57,8 +57,8 @@ function Layout({ title, children }: LayoutProps) {
           name="og:description"
           content="Ethereum gas price recommendations based on etherscan.io"
         ></meta>
-        <meta name="og:image" content="https://ethgas.org/logo.png"></meta>
-        <meta name="og:url" content="https://ethgas.org"></meta>
+        <meta name="og:image" content="https://gasinfo.io/logo.png"></meta>
+        <meta name="og:url" content="https://gasinfo.io"></meta>
         <meta
           name="og:site_name"
           content="EthGas - Gas Price Recommender"
