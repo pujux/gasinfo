@@ -69,18 +69,21 @@ async function fetchData(): Promise<GasData> {
     suggestBaseFee: parseFloat(result.suggestBaseFee),
     receivedAt: Date.now(),
   };
-  const timeData = (
+  const timeData = Object.fromEntries(
     await Promise.all(
-      [gasData.fastGasPrice, gasData.proposeGasPrice, gasData.safeGasPrice].map(
-        (gwei) =>
-          fetch(
-            `https://api.etherscan.io/api?module=gastracker&action=gasestimate&gasprice=${
-              gwei * 1e9
-            }&apikey=${process.env.ETHERSCAN_API_KEY}`
-          ).then((res) => res.json())
+      [
+        { label: "fast", gwei: gasData.fastGasPrice },
+        { label: "standard", gwei: gasData.proposeGasPrice },
+        { label: "slow", gwei: gasData.safeGasPrice },
+      ].map(({ label, gwei }) =>
+        fetch(
+          `https://api.etherscan.io/api?module=gastracker&action=gasestimate&gasprice=${
+            gwei * 1e9
+          }&apikey=${process.env.ETHERSCAN_API_KEY}`
+        ).then(async (res) => [label, parseInt((await res.json()).result)])
       )
     )
-  ).map(({ result }) => (typeof result === "number" ? result : null));
+  );
   gasData.timeEstimates = timeData;
   return gasData;
 }

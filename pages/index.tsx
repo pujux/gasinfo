@@ -4,7 +4,7 @@ import Layout from "../components/layout";
 import { Line } from "react-chartjs-2";
 import Timespan from "readable-timespan";
 
-const { parse } = new Timespan();
+const timespan = new Timespan();
 
 interface GasData {
   fastGasPrice: number;
@@ -13,7 +13,7 @@ interface GasData {
   safeGasPrice: number;
   gasUsedRatio: string;
   suggestBaseFee: number;
-  timeEstimates?: any[];
+  timeEstimates?: { fast: number; standard: number; slow: number };
 }
 
 const Home = () => {
@@ -88,13 +88,23 @@ const Home = () => {
             <div className="grid grid-cols-1 gap-6 mb-4 md:gap-12 md:grid-cols-3">
               <div className="flex items-center justify-between p-4 overflow-hidden border border-solid md:flex-col rounded-xl border-tertiaryBackgroundLight dark:border-tertiaryBackgroundDark bg-secondaryTextDark dark:bg-secondaryTextLight">
                 <h2 className="w-10 text-lg font-bold md:text-xl md:w-auto text-primaryTextLight dark:text-primaryTextDark">
-                  Rapid
+                  Fast
                 </h2>
                 <h2 className="text-2xl font-bold text-green-500 md:text-5xl md:my-4">
                   {gasData?.fastGasPrice?.toFixed(0)}
                 </h2>
                 <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
-                  ${((gasData?.fastGasPrice * price) / 1e9).toFixed(10)}
+                  Base Fee: {gasData?.suggestBaseFee.toFixed(0)}
+                </h2>
+                <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
+                  Time:{" "}
+                  {gasData?.timeEstimates?.fast
+                    ? timespan.parse(gasData?.timeEstimates?.fast * 1e3)
+                    : "-"}
+                </h2>
+                <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
+                  Price: ~$
+                  {(((gasData?.fastGasPrice * price) / 1e9) * 2e4).toFixed(2)}
                 </h2>
               </div>
               <div className="relative flex items-center justify-between p-4 overflow-hidden border border-solid md:flex-col rounded-xl border-accentText bg-secondaryTextDark dark:bg-secondaryTextLight">
@@ -107,24 +117,46 @@ const Home = () => {
                   className="absolute bottom-0 left-0 z-0 hidden w-full md:block opacity-20 bg-accentText"
                 ></div>
                 <h2 className="z-10 w-10 text-lg font-bold md:text-xl md:w-auto text-primaryTextLight dark:text-primaryTextDark">
-                  Fast
+                  Standard
                 </h2>
                 <h2 className="z-10 text-2xl font-bold md:text-5xl text-accentText md:my-4">
                   {gasData?.proposeGasPrice?.toFixed(0)}
                 </h2>
+                <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
+                  Base Fee: {gasData?.suggestBaseFee.toFixed(0)}
+                </h2>
+                <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
+                  Time:{" "}
+                  {gasData?.timeEstimates?.standard
+                    ? timespan.parse(gasData?.timeEstimates?.standard * 1e3)
+                    : "-"}
+                </h2>
                 <h2 className="z-10 text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
-                  ${((gasData?.proposeGasPrice * price) / 1e9).toFixed(10)}
+                  Price: ~$
+                  {(((gasData?.proposeGasPrice * price) / 1e9) * 2e4).toFixed(
+                    2
+                  )}
                 </h2>
               </div>
               <div className="flex items-center justify-between p-4 overflow-hidden border border-solid md:flex-col rounded-xl border-secondaryTextLight dark:border-secondaryTextDark bg-secondaryTextDark dark:bg-secondaryTextLight">
                 <h2 className="w-10 text-lg font-bold md:text-xl md:w-auto text-primaryTextLight dark:text-primaryTextDark">
-                  Standard
+                  Slow
                 </h2>
                 <h2 className="text-2xl font-bold text-blue-600 md:text-5xl md:my-4">
                   {gasData?.safeGasPrice?.toFixed(0)}
                 </h2>
                 <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
-                  ${((gasData?.safeGasPrice * price) / 1e9).toFixed(10)}
+                  Base Fee: {gasData?.suggestBaseFee.toFixed(0)}
+                </h2>
+                <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
+                  Time:{" "}
+                  {gasData?.timeEstimates?.slow
+                    ? timespan.parse(gasData?.timeEstimates?.slow * 1e3)
+                    : ""}
+                </h2>
+                <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
+                  Price: ~$
+                  {(((gasData?.safeGasPrice * price) / 1e9) * 2e4).toFixed(2)}
                 </h2>
               </div>
             </div>
