@@ -68,7 +68,7 @@ function Layout({ title, children }: LayoutProps) {
     <div>
       <Head>
         <title>
-          {title} {title ? " | " : ""} EthGas - Gas Price Recommender
+          {title} {title ? " | " : ""} GasInfo - Gas Price Recommender
         </title>
         <link rel="icon" href="/favicon.ico" />
         <meta
@@ -79,7 +79,7 @@ function Layout({ title, children }: LayoutProps) {
         <meta name="twitter:card" content="summary"></meta>
         <meta
           name="twitter:title"
-          content="EthGas - Gas Price Recommender"
+          content="GasInfo - Gas Price Recommender"
         ></meta>
         <meta
           name="twitter:description"
@@ -90,7 +90,7 @@ function Layout({ title, children }: LayoutProps) {
           content="https://gasinfo.io/logo.png"
         ></meta>
         <meta name="twitter:creator" content="@0xPUF17640"></meta>
-        <meta name="og:title" content="EthGas - Gas Price Recommender"></meta>
+        <meta name="og:title" content="GasInfo - Gas Price Recommender"></meta>
         <meta
           name="og:description"
           content="Ethereum gas price recommendations based on etherscan.io"
@@ -99,7 +99,7 @@ function Layout({ title, children }: LayoutProps) {
         <meta name="og:url" content="https://gasinfo.io"></meta>
         <meta
           name="og:site_name"
-          content="EthGas - Gas Price Recommender"
+          content="GasInfo - Gas Price Recommender"
         ></meta>
         <meta name="og:type" content="website"></meta>
         <meta
@@ -120,7 +120,7 @@ function Layout({ title, children }: LayoutProps) {
           <div className="flex items-center">
             <img className="w-8" alt="logo" src="/logo.png"></img>
             <h1 className="ml-2 text-2xl font-bold md:text-3xl text-accentText">
-              EthGas
+              GasInfo
             </h1>
             <h2 className="mt-1 ml-4 text-sm font-bold md:text-xl text-secondaryTextLight dark:text-secondaryTextDark">
               Ethereum Gas Price Recommender

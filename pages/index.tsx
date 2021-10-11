@@ -100,7 +100,7 @@ const Home = () => {
                   Base Fee: {gasData?.suggestBaseFee.toFixed(0)}
                 </h2>
                 <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
-                  Time:{" "}
+                  Time:{" ~"}
                   {gasData?.timeEstimates?.fast
                     ? timespan.parse(gasData?.timeEstimates?.fast * 1e3)
                     : "-"}
@@ -129,7 +129,7 @@ const Home = () => {
                   Base Fee: {gasData?.suggestBaseFee.toFixed(0)}
                 </h2>
                 <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
-                  Time:{" "}
+                  Time:{" ~"}
                   {gasData?.timeEstimates?.standard
                     ? timespan.parse(gasData?.timeEstimates?.standard * 1e3)
                     : "-"}
@@ -152,7 +152,7 @@ const Home = () => {
                   Base Fee: {gasData?.suggestBaseFee.toFixed(0)}
                 </h2>
                 <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
-                  Time:{" "}
+                  Time:{" ~"}
                   {gasData?.timeEstimates?.slow
                     ? timespan.parse(gasData?.timeEstimates?.slow * 1e3)
                     : ""}
