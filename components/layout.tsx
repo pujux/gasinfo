@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { LayoutProps } from "../@types";
 import MoonIcon from "../public/moon.svg";
 import SunIcon from "../public/sun.svg";
-import DiscordIcon from "../public/discord.svg";
+import GithubIcon from "../public/github.svg";
 
 function Layout({ title, children }: LayoutProps) {
   const [isDarkmode, setIsDarkmode] = useState(false);
@@ -127,9 +127,9 @@ function Layout({ title, children }: LayoutProps) {
             </h2>
           </div>
           <div className="flex items-center">
-            <DiscordIcon
-              className="hidden transition-none fill-current ctursor-pointer text-primaryTextLight dark:text-primaryTextDark"
-              onClick={() => window.open("https://discord.gg/VEa8xXw6CK")}
+            <GithubIcon
+              className="transition-none cursor-pointer fill-current text-primaryTextLight dark:text-primaryTextDark"
+              onClick={() => window.open("https://github.com/puf17640/gasinfo")}
             />
             <div className="w-5"></div>
             {isDarkmode ? (
@@ -151,27 +151,30 @@ function Layout({ title, children }: LayoutProps) {
       </div>
       <footer className="px-16 py-4 shadow-md bg-secondaryBackgroundLight dark:bg-secondaryBackgroundDark text-secondaryTextLight dark:text-secondaryTextDark">
         <div className="mx-auto text-center md:container">
-          <div className="flex items-center justify-center p-4">
-            <p className="underline">Tip me:</p>
+          <div className="flex flex-col items-center justify-center p-4 md:flex-row">
+            <p className="pb-2 underline md:p-0">Tip me:</p>
             <div
-              className="px-2 border-r-2 cursor-pointer"
+              className="pb-2 cursor-pointer md:px-2 md:pb-0 md:border-r-2"
               onClick={() => sendTip(0.005)}
             >
               0.005 Ξ
             </div>
             <div
-              className="px-2 border-r-2 cursor-pointer"
+              className="pb-2 cursor-pointer md:px-2 md:pb-0 md:border-r-2"
               onClick={() => sendTip(0.01)}
             >
               0.01 Ξ
             </div>
             <div
-              className="px-2 border-r-2 cursor-pointer"
+              className="pb-2 cursor-pointer md:px-2 md:pb-0 md:border-r-2"
               onClick={() => sendTip(0.05)}
             >
               0.05 Ξ
             </div>
-            <div className="pl-2 cursor-pointer" onClick={() => sendTip(0.1)}>
+            <div
+              className="pb-2 cursor-pointer md:pb-0 md:pl-2"
+              onClick={() => sendTip(0.1)}
+            >
               0.1 Ξ
             </div>
           </div>
