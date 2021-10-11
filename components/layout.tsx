@@ -154,28 +154,28 @@ function Layout({ title, children }: LayoutProps) {
           <div className="flex flex-col items-center justify-center p-4 md:flex-row">
             <p className="pb-2 underline md:p-0">Tip me:</p>
             <div
-              className="pb-2 cursor-pointer md:px-2 md:pb-0 md:border-r-2"
+              className="pb-2 border-gray-500 cursor-pointer md:px-2 md:pb-0 md:border-r-2"
               onClick={() => sendTip(0.005)}
             >
-              0.005 Ξ
+              Ξ0.005
             </div>
             <div
-              className="pb-2 cursor-pointer md:px-2 md:pb-0 md:border-r-2"
+              className="pb-2 border-gray-500 cursor-pointer md:px-2 md:pb-0 md:border-r-2"
               onClick={() => sendTip(0.01)}
             >
-              0.01 Ξ
+              Ξ0.01
             </div>
             <div
-              className="pb-2 cursor-pointer md:px-2 md:pb-0 md:border-r-2"
+              className="pb-2 border-gray-500 cursor-pointer md:px-2 md:pb-0 md:border-r-2"
               onClick={() => sendTip(0.05)}
             >
-              0.05 Ξ
+              Ξ0.05
             </div>
             <div
               className="pb-2 cursor-pointer md:pb-0 md:pl-2"
               onClick={() => sendTip(0.1)}
             >
-              0.1 Ξ
+              Ξ0.1
             </div>
           </div>
           <p>
