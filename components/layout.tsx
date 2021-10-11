@@ -22,8 +22,46 @@ function Layout({ title, children }: LayoutProps) {
     setIsDarkmode(darkmode);
   };
 
+  const sendTip = async (amount) => {
+    if (
+      window.hasOwnProperty("ethereum") &&
+      window.ethereum.hasOwnProperty("isMetaMask")
+    ) {
+      const addresses = await ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      const address = addresses[0];
+      console.info("Connected to", address);
+      ethereum
+        .request({
+          method: "eth_sendTransaction",
+          params: [
+            {
+              from: address,
+              to: "0x60CDac3cd0Ba3445D776B31B46E34623723C6482",
+              value: (amount * 1e18).toString(16),
+            },
+          ],
+        })
+        .then((txHash) => {
+          console.log(txHash);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      return alert(
+        "Install MetaMask to use this cool feature. https://metamask.io"
+      );
+    }
+  };
+
   useEffect(() => {
-    toggleDarkmode(localStorage.getItem("theme") === "dark");
+    toggleDarkmode(
+      typeof localStorage.getItem("theme") === "string"
+        ? localStorage.getItem("theme") === "dark"
+        : window.matchMedia("(prefers-color-scheme: dark)").matches
+    );
   }, []);
 
   return (
@@ -113,15 +151,30 @@ function Layout({ title, children }: LayoutProps) {
       </div>
       <footer className="px-16 py-4 shadow-md bg-secondaryBackgroundLight dark:bg-secondaryBackgroundDark text-secondaryTextLight dark:text-secondaryTextDark">
         <div className="mx-auto text-center md:container">
-          <p className="hidden mb-4">
-            Sponsored by{" "}
-            <a
-              className="underline text-accentText"
-              href="https://gravityfinance.io"
+          <div className="flex items-center justify-center p-4">
+            <p className="underline">Tip me:</p>
+            <div
+              className="px-2 border-r-2 cursor-pointer"
+              onClick={() => sendTip(0.005)}
             >
-              Gravity Finance
-            </a>
-          </p>
+              0.005 Ξ
+            </div>
+            <div
+              className="px-2 border-r-2 cursor-pointer"
+              onClick={() => sendTip(0.01)}
+            >
+              0.01 Ξ
+            </div>
+            <div
+              className="px-2 border-r-2 cursor-pointer"
+              onClick={() => sendTip(0.05)}
+            >
+              0.05 Ξ
+            </div>
+            <div className="pl-2 cursor-pointer" onClick={() => sendTip(0.1)}>
+              0.1 Ξ
+            </div>
+          </div>
           <p>
             © {new Date().getFullYear()}{" "}
             <a className="underline text-accentText" href="https://pufler.dev">

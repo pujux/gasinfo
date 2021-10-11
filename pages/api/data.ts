@@ -6,7 +6,7 @@ let lastTimeStamp = 0,
   lastBlock = 0,
   isRefetching = false;
 
-const MIN_INTERVAL = 5e3,
+const MIN_INTERVAL = 10e3,
   BLOCKS_COLLECTION =
     process.env.NODE_ENV === "production" ? "blocks" : "blocks_dev";
 

@@ -18,6 +18,7 @@ interface GasData {
 
 const Home = () => {
   let priceInterval,
+    gasInterval,
     blocks = [];
   const [gasData, setGasData] = useState<GasData>();
   const [price, setPrice] = useState(NaN);
@@ -26,23 +27,25 @@ const Home = () => {
   const backgroundAnimateYRef = useRef<HTMLDivElement>();
 
   useEffect(() => {
-    if (priceInterval) return console.log("already defined intervals");
+    if (priceInterval || gasInterval)
+      return console.log("already defined intervals");
     fetchGasstation();
     fetchEthereumPrice();
 
     backgroundAnimateXRef.current.classList.add("refreshingX");
     backgroundAnimateYRef.current.classList.add("refreshingY");
-    backgroundAnimateXRef.current.onanimationiteration = fetchGasstation;
-    backgroundAnimateYRef.current.onanimationiteration = fetchGasstation;
+    // backgroundAnimateXRef.current.onanimationiteration = fetchGasstation;
+    // backgroundAnimateYRef.current.onanimationiteration = fetchGasstation;
     priceInterval = setInterval(fetchEthereumPrice, 12e4);
+    gasInterval = setInterval(fetchGasstation, 15e3);
     return () => {
       clearInterval(priceInterval);
+      clearInterval(gasInterval);
     };
   }, []);
 
   const fetchGasstation = async () => {
     const res = await fetch("/api/data").then((res) => res.json());
-    console.log(res);
     if (res.history && res.data) {
       setGasData(res.data);
       setLastBlocks(res.history);
@@ -190,9 +193,7 @@ const Home = () => {
             <Line
               type="line"
               data={{
-                labels: lastBlocks.map(({ receivedAt }) =>
-                  new Date(receivedAt).toLocaleTimeString()
-                ),
+                labels: lastBlocks.map(({ lastBlock }) => lastBlock),
                 datasets: [
                   {
                     label: "Rapid",
