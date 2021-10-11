@@ -25,14 +25,14 @@ function Layout({ title, children }: LayoutProps) {
   const sendTip = async (amount) => {
     if (
       window.hasOwnProperty("ethereum") &&
-      window.ethereum.hasOwnProperty("isMetaMask")
+      (window as any).ethereum.hasOwnProperty("isMetaMask")
     ) {
-      const addresses = await ethereum.request({
+      const addresses = await (window as any).ethereum.request({
         method: "eth_requestAccounts",
       });
       const address = addresses[0];
       console.info("Connected to", address);
-      ethereum
+      (window as any).ethereum
         .request({
           method: "eth_sendTransaction",
           params: [
