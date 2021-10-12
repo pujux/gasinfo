@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^1.24.0",
     "@svgr/webpack": "^5.5.0",
     "autoprefixer": "^10.1.0",
     "chart.js": "3.3.2",

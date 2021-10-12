@@ -1,5 +1,5 @@
 import { fetch } from "cross-fetch";
-import firestore from "../../lib/firebase";
+import supabase from "../../lib/supabase";
 
 let lastTimeStamp = 0,
   isUpdating = false,
@@ -18,7 +18,7 @@ interface GasData {
   gasUsedRatio?: string;
   suggestBaseFee?: number;
   timeEstimates?: any[];
-  receivedAt?: number;
+  receivedAt?: string;
 }
 
 export default async function getData(req, res) {
@@ -29,26 +29,23 @@ export default async function getData(req, res) {
     const data = await fetchData();
     if (data) {
       lastBlock = data.lastBlock;
-      await firestore
-        .collection(BLOCKS_COLLECTION)
-        .doc(data.lastBlock.toString())
-        .set(data);
+      const { error } = await supabase.from(BLOCKS_COLLECTION).insert([data]);
+      if (error) console.error(error);
     }
     isUpdating = false;
     info("done refetching");
   }
-  await firestore
-    .collection(BLOCKS_COLLECTION)
-    .orderBy("lastBlock")
-    .limitToLast(25)
-    .get()
-    .then((snap) =>
-      res.status(200).json({
-        data: snap.docs[snap.size - 1].data(),
-        history: snap.docs.map((doc) => doc.data()),
-      })
-    )
-    .catch((error) => res.json({ error }));
+  const { data: blocks, error } = await supabase
+    .from(BLOCKS_COLLECTION)
+    .select("*")
+    .order("lastBlock")
+    .limit(25);
+  if (error) res.status(error.code).json({ ...error });
+  else
+    res.status(200).json({
+      data: blocks[blocks.length - 1],
+      history: blocks,
+    });
 }
 
 const info = (message?: any) => console.info(`[${Date.now()}] ${message}`);
@@ -67,7 +64,7 @@ async function fetchData(): Promise<GasData> {
     safeGasPrice: parseFloat(result.SafeGasPrice),
     gasUsedRatio: result.gasUsedRatio,
     suggestBaseFee: parseFloat(result.suggestBaseFee),
-    receivedAt: Date.now(),
+    receivedAt: Date.now().toString(),
   };
   const timeData = Object.fromEntries(
     await Promise.all(
