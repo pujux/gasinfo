@@ -38,8 +38,8 @@ export default async function getData(req, res) {
   const { data: blocks, error } = await supabase
     .from(BLOCKS_COLLECTION)
     .select("*")
-    .order("lastBlock")
-    .limit(25);
+    .order("lastBlock", { ascending: true })
+    .limit(50);
   if (error) res.status(error.code).json({ ...error });
   else
     res.status(200).json({

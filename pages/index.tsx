@@ -23,6 +23,7 @@ const Home = () => {
   const [gasData, setGasData] = useState<GasData>();
   const [price, setPrice] = useState(NaN);
   const [lastBlocks, setLastBlocks] = useState([]);
+  const [historyXAxis, setHistoryXAxis] = useState("lastBlock");
   const backgroundAnimateXRef = useRef<HTMLDivElement>();
   const backgroundAnimateYRef = useRef<HTMLDivElement>();
 
@@ -186,14 +187,29 @@ const Home = () => {
           </a>
         </div>
         <div className="mx-4 mb-16 md:mx-0">
-          <h1 className="mb-4 text-3xl md:text-center text-primaryTextLight dark:text-primaryTextDark">
-            Gas Price History
-          </h1>
+          <div className="flex items-center justify-center mb-4">
+            <h1 className="text-3xl md:text-center text-primaryTextLight dark:text-primaryTextDark">
+              Gas Price History
+            </h1>
+            <select
+              className="p-2 ml-8 border border-black outline-none rounded-xl dark:border-white text-primaryTextLight dark:text-primaryTextDark bg-primaryBackgroundLight dark:bg-primaryBackgroundDark"
+              onChange={(e) => {
+                setHistoryXAxis(e.target.value);
+              }}
+            >
+              <option value="lastBlock">Block</option>
+              <option value="receivedAt">Time</option>
+            </select>
+          </div>
           <div className="max-w-4xl mx-auto">
             <Line
               type="line"
               data={{
-                labels: lastBlocks.map(({ lastBlock }) => lastBlock),
+                labels: lastBlocks.map((block) =>
+                  historyXAxis === "lastBlock"
+                    ? block.lastBlock
+                    : new Date(parseInt(block.receivedAt)).toLocaleTimeString()
+                ),
                 datasets: [
                   {
                     label: "Rapid",
