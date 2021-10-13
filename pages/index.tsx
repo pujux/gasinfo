@@ -192,7 +192,7 @@ const Home = () => {
               Gas Price History
             </h1>
             <select
-              className="p-2 ml-8 border border-black outline-none rounded-xl dark:border-white text-primaryTextLight dark:text-primaryTextDark bg-primaryBackgroundLight dark:bg-primaryBackgroundDark"
+              className="px-4 py-2 ml-8 border border-black outline-none rounded-xl dark:border-white text-primaryTextLight dark:text-primaryTextDark bg-primaryBackgroundLight dark:bg-primaryBackgroundDark"
               onChange={(e) => {
                 setHistoryXAxis(e.target.value);
               }}
