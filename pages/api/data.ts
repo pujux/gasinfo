@@ -39,7 +39,7 @@ export default async function getData(req, res) {
     .from(BLOCKS_COLLECTION)
     .select("*")
     .order("lastBlock", { ascending: false })
-    .limit(5);
+    .limit(50);
   blocks.reverse();
   if (error) res.status(error.code).json({ ...error });
   else

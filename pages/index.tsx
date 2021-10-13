@@ -193,9 +193,7 @@ const Home = () => {
             </h1>
             <select
               className="px-4 py-2 ml-8 border border-black outline-none rounded-xl dark:border-white text-primaryTextLight dark:text-primaryTextDark bg-primaryBackgroundLight dark:bg-primaryBackgroundDark"
-              onChange={(e) => {
-                setHistoryXAxis(e.target.value);
-              }}
+              onChange={(e) => setHistoryXAxis(e.target.value)}
             >
               <option value="lastBlock">Block</option>
               <option value="receivedAt">Time</option>
