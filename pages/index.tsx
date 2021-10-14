@@ -16,11 +16,19 @@ interface GasData {
   timeEstimates?: { fast: number; standard: number; slow: number };
 }
 
+interface TransactionEstimationInfo {
+  name: string;
+  shortType?: string;
+  type: string;
+  gasUsed: number;
+  gasLink?: string;
+}
+
 const Home = () => {
-  let priceInterval,
-    gasInterval,
-    blocks = [];
+  let priceInterval: NodeJS.Timeout, gasInterval: NodeJS.Timeout;
   const [gasData, setGasData] = useState<GasData>();
+  const [transactionInfo, setTransactionInfo] =
+    useState<TransactionEstimationInfo[]>();
   const [price, setPrice] = useState(NaN);
   const [lastBlocks, setLastBlocks] = useState([]);
   const [historyXAxis, setHistoryXAxis] = useState("lastBlock");
@@ -32,13 +40,14 @@ const Home = () => {
       return console.log("already defined intervals");
     fetchGasstation();
     fetchEthereumPrice();
+    fetchTransactionEstimationInfo();
 
     backgroundAnimateXRef.current.classList.add("refreshingX");
     backgroundAnimateYRef.current.classList.add("refreshingY");
     // backgroundAnimateXRef.current.onanimationiteration = fetchGasstation;
     // backgroundAnimateYRef.current.onanimationiteration = fetchGasstation;
     priceInterval = setInterval(fetchEthereumPrice, 12e4);
-    gasInterval = setInterval(fetchGasstation, 15e3);
+    gasInterval = setInterval(fetchGasstation, 1e4);
     return () => {
       clearInterval(priceInterval);
       clearInterval(gasInterval);
@@ -51,6 +60,11 @@ const Home = () => {
       setGasData(res.data);
       setLastBlocks(res.history);
     }
+  };
+
+  const fetchTransactionEstimationInfo = async () => {
+    const res = await fetch("/api/info").then((res) => res.json());
+    setTransactionInfo(res.info);
   };
 
   const fetchEthereumPrice = async () => {
@@ -81,12 +95,12 @@ const Home = () => {
       >
         <div className="mx-4 mb-16 md:mx-0">
           <div className="max-w-4xl mx-auto">
-            <div className="mb-12">
+            <div className="mb-8">
               <h1 className="mb-4 text-3xl md:text-center text-primaryTextLight dark:text-primaryTextDark">
                 Gas Price (Gwei)
               </h1>
               <h2 className="md:text-center text-md text-secondaryTextLight dark:text-secondaryTextDark">
-                Recommended Gas Price and Info
+                Recommended gas price and information
               </h2>
             </div>
             <div className="grid grid-cols-1 gap-6 mb-4 md:gap-12 md:grid-cols-3">
@@ -108,7 +122,7 @@ const Home = () => {
                 </h2>
                 <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
                   Price: ~$
-                  {(((gasData?.fastGasPrice * price) / 1e9) * 2e4).toFixed(2)}
+                  {(((gasData?.fastGasPrice * price) / 1e9) * 21e3).toFixed(2)}
                 </h2>
               </div>
               <div className="relative flex-col items-center justify-between p-4 overflow-hidden text-center border border-solid rounded-xl border-accentText bg-secondaryTextDark dark:bg-secondaryTextLight">
@@ -137,7 +151,7 @@ const Home = () => {
                 </h2>
                 <h2 className="z-10 text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
                   Price: ~$
-                  {(((gasData?.proposeGasPrice * price) / 1e9) * 2e4).toFixed(
+                  {(((gasData?.proposeGasPrice * price) / 1e9) * 21e3).toFixed(
                     2
                   )}
                 </h2>
@@ -160,12 +174,12 @@ const Home = () => {
                 </h2>
                 <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
                   Price: ~$
-                  {(((gasData?.safeGasPrice * price) / 1e9) * 2e4).toFixed(2)}
+                  {(((gasData?.safeGasPrice * price) / 1e9) * 21e3).toFixed(2)}
                 </h2>
               </div>
             </div>
             <h1 className="text-md text-secondaryTextLight dark:text-secondaryTextDark">
-              Ethereum: ${price}
+              Ethereum: {price}
             </h1>
             <h1 className="text-md text-secondaryTextLight dark:text-secondaryTextDark">
               Block: #{gasData?.lastBlock}
@@ -187,7 +201,7 @@ const Home = () => {
           </a>
         </div>
         <div className="mx-4 mb-16 md:mx-0">
-          <div className="flex items-center justify-center mb-4">
+          <div className="flex items-center justify-center mb-8">
             <h1 className="text-3xl md:text-center text-primaryTextLight dark:text-primaryTextDark">
               Gas Price History
             </h1>
@@ -261,6 +275,83 @@ const Home = () => {
               }}
             />
           </div>
+        </div>
+        <div className="mx-4 mb-16 md:mx-0 text-primaryTextLight dark:text-primaryTextDark">
+          <div className="mb-4">
+            <h1 className="mb-4 text-3xl md:text-center text-primaryTextLight dark:text-primaryTextDark">
+              Gas Price (Gwei)
+            </h1>
+            <h2 className="md:text-center text-md text-secondaryTextLight dark:text-secondaryTextDark">
+              For reference only, real transaction prices might differ
+            </h2>
+          </div>
+          <table className="w-full max-w-4xl mx-auto table-auto">
+            <thead>
+              <th className="p-2 text-center border border-black md:p-4 dark:border-white">
+                Name
+              </th>
+              <th className="hidden p-2 text-center border border-black md:table-cell md:p-4 dark:border-white">
+                Action
+              </th>
+              <th className="p-2 text-center border border-black md:p-4 dark:border-white">
+                Gas Used
+              </th>
+              <th className="p-2 text-center border border-black md:p-4 dark:border-white">
+                Fast
+              </th>
+              <th className="p-2 text-center border border-black md:p-4 dark:border-white">
+                Standard
+              </th>
+            </thead>
+            <tbody>
+              {transactionInfo?.map((info) => (
+                <tr>
+                  <td className="p-2 text-center border border-black md:p-4 dark:border-white">
+                    {info.name}
+                    <br />
+                    <span
+                      style={{ fontSize: ".75rem" }}
+                      className="px-2 py-1 bg-gray-500 text-primaryTextDark rounded-xl sm:hidden"
+                    >
+                      {info.shortType ?? info.type}
+                    </span>
+                  </td>
+                  <td className="hidden p-2 text-center border border-black md:p-4 md:table-cell dark:border-white">
+                    <span className="px-4 py-2 mx-auto bg-gray-500 rounded-xl w-min text-primaryTextDark">
+                      {info.type}
+                    </span>
+                  </td>
+                  <td className="p-2 text-center border border-black md:p-4 dark:border-white">
+                    {info.gasLink ? (
+                      <a
+                        href={info.gasLink}
+                        target="_blank"
+                        className="text-accentText"
+                      >
+                        {info.gasUsed.toLocaleString()}
+                      </a>
+                    ) : (
+                      info.gasUsed.toLocaleString()
+                    )}
+                  </td>
+                  <td className="p-2 text-center border border-black md:p-4 dark:border-white">
+                    ~$
+                    {(
+                      ((gasData?.fastGasPrice * price) / 1e9) *
+                      info.gasUsed
+                    ).toFixed(2)}
+                  </td>
+                  <td className="p-2 text-center border border-black md:p-4 dark:border-white">
+                    ~$
+                    {(
+                      ((gasData?.proposeGasPrice * price) / 1e9) *
+                      info.gasUsed
+                    ).toFixed(2)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </Layout>
     </div>
