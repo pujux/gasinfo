@@ -94,7 +94,7 @@ const Home = () => {
               )}-${gasData?.proposeGasPrice.toFixed(0)} Gwei`
         }
       >
-        <div className="mx-4 mb-16 md:mx-0">
+        <div className="mx-4 mb-16 md:mx-0" id="gasprice">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8">
               <h1 className="mb-4 text-3xl md:text-center text-primaryTextLight dark:text-primaryTextDark">
@@ -201,7 +201,7 @@ const Home = () => {
             />
           </a>
         </div>
-        <div className="mx-4 mb-16 md:mx-0">
+        <div className="mx-4 mb-16 md:mx-0" id="history">
           <div className="flex items-center justify-center mb-8">
             <h1 className="text-3xl md:text-center text-primaryTextLight dark:text-primaryTextDark">
               Gas Price History
@@ -280,7 +280,7 @@ const Home = () => {
         <div className="mx-4 mb-16 md:mx-0 text-primaryTextLight dark:text-primaryTextDark">
           <div className="mb-4">
             <h1 className="mb-4 text-3xl md:text-center text-primaryTextLight dark:text-primaryTextDark">
-              Gas Price (Gwei)
+              Estimated Cost of Transaction
             </h1>
             <h2 className="md:text-center text-md text-secondaryTextLight dark:text-secondaryTextDark">
               For reference only, real transaction prices might differ
@@ -288,25 +288,27 @@ const Home = () => {
           </div>
           <table className="w-full max-w-4xl mx-auto table-auto">
             <thead>
-              <th className="p-2 text-center border border-black md:p-4 dark:border-white">
-                Name
-              </th>
-              <th className="hidden p-2 text-center border border-black md:table-cell md:p-4 dark:border-white">
-                Action
-              </th>
-              <th className="p-2 text-center border border-black md:p-4 dark:border-white">
-                Gas Used
-              </th>
-              <th className="p-2 text-center border border-black md:p-4 dark:border-white">
-                Fast
-              </th>
-              <th className="p-2 text-center border border-black md:p-4 dark:border-white">
-                Standard
-              </th>
+              <tr>
+                <th className="p-2 text-center border border-black md:p-4 dark:border-white">
+                  Name
+                </th>
+                <th className="hidden p-2 text-center border border-black md:table-cell md:p-4 dark:border-white">
+                  Action
+                </th>
+                <th className="p-2 text-center border border-black md:p-4 dark:border-white">
+                  Gas Used (Gwei)
+                </th>
+                <th className="p-2 text-center border border-black md:p-4 dark:border-white">
+                  Fast
+                </th>
+                <th className="p-2 text-center border border-black md:p-4 dark:border-white">
+                  Standard
+                </th>
+              </tr>
             </thead>
             <tbody>
               {transactionInfo?.map((info) => (
-                <tr>
+                <tr id={info.name.replace(".", "-").toLowerCase()}>
                   <td className="p-2 text-center border border-black md:p-4 dark:border-white">
                     {info.name}
                     <br />
