@@ -4,6 +4,7 @@ import { LayoutProps } from "../@types";
 import MoonIcon from "../public/moon.svg";
 import SunIcon from "../public/sun.svg";
 import GithubIcon from "../public/github.svg";
+import ReactGA from "react-ga";
 
 function Layout({ title, children }: LayoutProps) {
   const [isDarkmode, setIsDarkmode] = useState(false);
@@ -62,6 +63,8 @@ function Layout({ title, children }: LayoutProps) {
         ? localStorage.getItem("theme") === "dark"
         : window.matchMedia("(prefers-color-scheme: dark)").matches
     );
+    ReactGA.initialize(`UA-210362208-1`);
+    ReactGA.pageview(window.location.pathname + window.location.search);
   }, []);
 
   return (

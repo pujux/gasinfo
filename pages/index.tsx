@@ -34,6 +34,7 @@ const Home = () => {
   const [historyXAxis, setHistoryXAxis] = useState("lastBlock");
   const backgroundAnimateXRef = useRef<HTMLDivElement>();
   const backgroundAnimateYRef = useRef<HTMLDivElement>();
+  const [customGasUsed, setCustomGasUsed] = useState(21000);
 
   useEffect(() => {
     if (priceInterval || gasInterval)
@@ -350,6 +351,35 @@ const Home = () => {
                   </td>
                 </tr>
               ))}
+              <tr>
+                <td className="p-2 text-center border border-black md:p-4 dark:border-white">
+                  Custom
+                </td>
+                <td className="hidden p-2 text-center border border-black md:p-4 md:table-cell dark:border-white"></td>
+                <td className="py-1 text-center border border-black md:p-4 dark:border-white">
+                  <input
+                    min="0"
+                    step="10"
+                    className="py-1 text-center border border-black outline-none rounded-xl dark:border-white text-primaryTextLight dark:text-primaryTextDark bg-primaryBackgroundLight dark:bg-primaryBackgroundDark"
+                    type="number"
+                    defaultValue={customGasUsed}
+                    onChange={(e) => setCustomGasUsed(parseInt(e.target.value))}
+                  ></input>
+                </td>
+                <td className="p-2 text-center border border-black md:p-4 dark:border-white">
+                  ~$
+                  {(
+                    ((gasData?.fastGasPrice * price) / 1e9) * customGasUsed || 0
+                  ).toFixed(2)}
+                </td>
+                <td className="p-2 text-center border border-black md:p-4 dark:border-white">
+                  ~$
+                  {(
+                    ((gasData?.proposeGasPrice * price) / 1e9) *
+                      customGasUsed || 0
+                  ).toFixed(2)}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

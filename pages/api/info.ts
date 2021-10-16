@@ -94,6 +94,60 @@ export default function getInfo(req, res) {
         gasLink:
           "https://etherscan.io/tx/0x0860f56786601da581dfe5f431583827136356b967b42482d37593fa00adfdc6",
       },
+      {
+        name: "zkSync",
+        type: "depositETH",
+        gasUsed: 58952,
+        gasLink:
+          "https://etherscan.io/tx/0xe16b21b5c8eb3ee61e15663502c7bec3a982e5ca2187ff98f7fe72e094b80386",
+      },
+      {
+        name: "Maker",
+        type: "Borrow",
+        gasUsed: 207200,
+        gasLink:
+          "https://kovan.etherscan.io/tx/0xada8d75b7c55ef62ea3865cc205326d618cb21ec8adfdd6e94d81a59a0200c22",
+      },
+      {
+        name: "Maker",
+        type: "Repay",
+        gasUsed: 182495,
+        gasLink:
+          "https://kovan.etherscan.io/tx/0xd65ff4a7056a8fa987cdf31cd403982eb7ec9da4355782fb2d9847343041f2bc",
+      },
+      {
+        name: "Compound",
+        type: "Mint USDT",
+        gasUsed: 160000,
+        gasLink:
+          "https://kovan.etherscan.io/tx/0xada8d75b7c55ef62ea3865cc205326d618cb21ec8adfdd6e94d81a59a0200c22",
+      },
+      {
+        name: "Compound",
+        type: "Withdraw USDT",
+        gasUsed: 170000,
+      },
+      {
+        name: "Tornado.Cash",
+        type: "Deposit",
+        gasUsed: 1007538,
+        gasLink:
+          "https://etherscan.io/tx/0x9a1887e637f544e4eefd83917370c41da6096886301c6ca967f4db2bdefa6aa2",
+      },
+      {
+        name: "Tornado.Cash",
+        type: "Withdraw",
+        gasUsed: 392670,
+        gasLink:
+          "https://etherscan.io/tx/0x1883860648f7f68ffa0ed0fae837071fc14671655986e59f46a5091db30d82f2",
+      },
+      {
+        name: "OpenSea",
+        type: "Registry",
+        gasUsed: 391402,
+        gasLink:
+          "https://etherscan.io/tx/0x8d224ce118f2c40d12d8e9765fc09cd92541fa8bdcfa3a25fc3ddd03a31c41ae",
+      },
     ],
   });
 }
