@@ -225,7 +225,7 @@ const Home = () => {
                 ),
                 datasets: [
                   {
-                    label: "Rapid",
+                    label: "Fast",
                     data: lastBlocks.map(({ fastGasPrice }) =>
                       fastGasPrice?.toFixed(0)
                     ),
@@ -236,7 +236,7 @@ const Home = () => {
                     cubicInterpolationMode: "monotone",
                   },
                   {
-                    label: "Fast",
+                    label: "Standard",
                     data: lastBlocks.map(({ proposeGasPrice }) =>
                       proposeGasPrice?.toFixed(0)
                     ),
@@ -247,7 +247,7 @@ const Home = () => {
                     cubicInterpolationMode: "monotone",
                   },
                   {
-                    label: "Standard",
+                    label: "Slow",
                     data: lastBlocks.map(({ safeGasPrice }) =>
                       safeGasPrice?.toFixed(0)
                     ),
