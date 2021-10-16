@@ -289,7 +289,7 @@ const Home = () => {
           <table className="w-full max-w-4xl mx-auto table-auto">
             <thead>
               <tr>
-                <th className="p-2 text-center border border-black md:p-4 dark:border-white">
+                <th className="px-1 py-2 text-center border border-black md:px-2 md:p-4 dark:border-white">
                   Name
                 </th>
                 <th className="hidden p-2 text-center border border-black md:table-cell md:p-4 dark:border-white">
@@ -309,7 +309,7 @@ const Home = () => {
             <tbody>
               {transactionInfo?.map((info) => (
                 <tr id={info.name.replace(".", "-").toLowerCase()}>
-                  <td className="p-2 text-center border border-black md:p-4 dark:border-white">
+                  <td className="px-1 py-2 text-center border border-black md:px-2 md:p-4 dark:border-white">
                     {info.name}
                     <br />
                     <span
@@ -354,7 +354,7 @@ const Home = () => {
                 </tr>
               ))}
               <tr>
-                <td className="p-2 text-center border border-black md:p-4 dark:border-white">
+                <td className="px-1 py-2 text-center border border-black md:px-2 md:p-4 dark:border-white">
                   Custom
                 </td>
                 <td className="hidden p-2 text-center border border-black md:p-4 md:table-cell dark:border-white"></td>
@@ -362,7 +362,7 @@ const Home = () => {
                   <input
                     min="0"
                     step="10"
-                    className="py-1 text-center border border-black outline-none rounded-xl dark:border-white text-primaryTextLight dark:text-primaryTextDark bg-primaryBackgroundLight dark:bg-primaryBackgroundDark"
+                    className="w-24 py-1 text-center border border-black outline-none md:w-auto rounded-xl dark:border-white text-primaryTextLight dark:text-primaryTextDark bg-primaryBackgroundLight dark:bg-primaryBackgroundDark"
                     type="number"
                     defaultValue={customGasUsed}
                     onChange={(e) => setCustomGasUsed(parseInt(e.target.value))}

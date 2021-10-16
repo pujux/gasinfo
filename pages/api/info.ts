@@ -117,14 +117,14 @@ export default function getInfo(req, res) {
       },
       {
         name: "Compound",
-        type: "Mint USDT",
+        type: "Mint",
         gasUsed: 160000,
         gasLink:
           "https://kovan.etherscan.io/tx/0xada8d75b7c55ef62ea3865cc205326d618cb21ec8adfdd6e94d81a59a0200c22",
       },
       {
         name: "Compound",
-        type: "Withdraw USDT",
+        type: "Withdraw",
         gasUsed: 170000,
       },
       {
