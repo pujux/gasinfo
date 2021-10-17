@@ -6,7 +6,7 @@ import SunIcon from "../public/sun.svg";
 import GithubIcon from "../public/github.svg";
 import ReactGA from "react-ga";
 
-function Layout({ title, children }: LayoutProps) {
+function Layout({ title, setDarkMode, children }: LayoutProps) {
   const [isDarkmode, setIsDarkmode] = useState(false);
 
   const toggleDarkmode = (darkmode) => {
@@ -21,6 +21,7 @@ function Layout({ title, children }: LayoutProps) {
     }
     localStorage.setItem("theme", darkmode ? "dark" : "light");
     setIsDarkmode(darkmode);
+    setDarkMode(darkmode);
   };
 
   const sendTip = async (amount) => {

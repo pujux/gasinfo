@@ -35,6 +35,7 @@ const Home = () => {
   const backgroundAnimateXRef = useRef<HTMLDivElement>();
   const backgroundAnimateYRef = useRef<HTMLDivElement>();
   const [customGasUsed, setCustomGasUsed] = useState(21000);
+  const [isDarkMode, setIsDarkMode] = useState();
 
   useEffect(() => {
     if (priceInterval || gasInterval)
@@ -93,6 +94,7 @@ const Home = () => {
                 0
               )}-${gasData?.proposeGasPrice.toFixed(0)} Gwei`
         }
+        setDarkMode={setIsDarkMode}
       >
         <div className="mx-4 mb-16 md:mx-0" id="gasprice">
           <div className="max-w-4xl mx-auto">
@@ -119,7 +121,7 @@ const Home = () => {
                   Time:{" ~"}
                   {gasData?.timeEstimates?.fast
                     ? timespan.parse(gasData?.timeEstimates?.fast * 1e3)
-                    : "-"}
+                    : "???"}
                 </h2>
                 <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
                   Price: ~$
@@ -148,7 +150,7 @@ const Home = () => {
                   Time:{" ~"}
                   {gasData?.timeEstimates?.standard
                     ? timespan.parse(gasData?.timeEstimates?.standard * 1e3)
-                    : "-"}
+                    : "???"}
                 </h2>
                 <h2 className="z-10 text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
                   Price: ~$
@@ -171,7 +173,7 @@ const Home = () => {
                   Time:{" ~"}
                   {gasData?.timeEstimates?.slow
                     ? timespan.parse(gasData?.timeEstimates?.slow * 1e3)
-                    : ""}
+                    : "???"}
                 </h2>
                 <h2 className="text-sm font-bold md:text-md text-secondaryTextLight dark:text-secondaryTextDark">
                   Price: ~$
@@ -180,7 +182,7 @@ const Home = () => {
               </div>
             </div>
             <h1 className="text-md text-secondaryTextLight dark:text-secondaryTextDark">
-              Ethereum: {price}
+              Ethereum: ${price}
             </h1>
             <h1 className="text-md text-secondaryTextLight dark:text-secondaryTextDark">
               Block: #{gasData?.lastBlock}
@@ -190,7 +192,7 @@ const Home = () => {
         <div className="hidden max-w-4xl mx-auto mb-16">
           <a href="https://gravityfinance.io">
             <img
-              className="m-auto sm:block"
+              className="hidden m-auto sm:block"
               src="/banner.gif"
               alt="Gravity Finance Banner"
             />
@@ -202,12 +204,12 @@ const Home = () => {
           </a>
         </div>
         <div className="mx-4 mb-16 md:mx-0" id="history">
-          <div className="flex items-center justify-center mb-8">
-            <h1 className="text-3xl md:text-center text-primaryTextLight dark:text-primaryTextDark">
+          <div className="flex flex-col justify-center mb-8 sm:items-center sm:flex-row">
+            <h1 className="text-3xl sm:text-center text-primaryTextLight dark:text-primaryTextDark">
               Gas Price History
             </h1>
             <select
-              className="px-4 py-2 ml-8 border border-black outline-none rounded-xl dark:border-white text-primaryTextLight dark:text-primaryTextDark bg-primaryBackgroundLight dark:bg-primaryBackgroundDark"
+              className="px-4 py-2 mt-4 border border-black outline-none w-min sm:mt-0 sm:ml-8 rounded-xl dark:border-white text-primaryTextLight dark:text-primaryTextDark bg-primaryBackgroundLight dark:bg-primaryBackgroundDark"
               onChange={(e) => setHistoryXAxis(e.target.value)}
             >
               <option value="lastBlock">Block</option>
@@ -260,19 +262,50 @@ const Home = () => {
                 ],
               }}
               options={{
+                aspectRatio: 1.5,
                 plugins: {
-                  tooltip: {},
+                  tooltip: {
+                    callbacks: {
+                      label: function (context) {
+                        var label = context.dataset.label || "";
+
+                        if (label) {
+                          label += ": ";
+                        }
+                        if (context.parsed.y !== null) {
+                          label += `${context.parsed.y} Gwei`;
+                        }
+                        return label;
+                      },
+                    },
+                  },
                 },
                 animation: {
                   duration: 0,
                 },
-                yAxes: [
-                  {
-                    scaleLabel: {
-                      labelString: "Gwei",
+                interaction: {
+                  mode: "nearest",
+                  intersect: false,
+                },
+                scales: {
+                  y: {
+                    title: {
+                      display: true,
+                      text: "Gwei",
+                    },
+                    grid: {
+                      color: isDarkMode ? "#35383f" : "#a0aabf",
+                    },
+                    ticks: {
+                      stepSize: 1,
                     },
                   },
-                ],
+                  x: {
+                    grid: {
+                      color: isDarkMode ? "#35383f" : "#a0aabf",
+                    },
+                  },
+                },
               }}
             />
           </div>
