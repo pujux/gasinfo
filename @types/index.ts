@@ -1,4 +1,5 @@
 export interface LayoutProps {
-  title?:string
-  children
+  title?: string;
+  setDarkmode: () => void;
+  children;
 }

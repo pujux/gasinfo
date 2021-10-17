@@ -35,7 +35,7 @@ const Home = () => {
   const backgroundAnimateXRef = useRef<HTMLDivElement>();
   const backgroundAnimateYRef = useRef<HTMLDivElement>();
   const [customGasUsed, setCustomGasUsed] = useState(21000);
-  const [isDarkMode, setIsDarkMode] = useState();
+  const [isDarkmode, setIsDarkmode] = useState();
 
   useEffect(() => {
     if (priceInterval || gasInterval)
@@ -94,7 +94,7 @@ const Home = () => {
                 0
               )}-${gasData?.proposeGasPrice.toFixed(0)} Gwei`
         }
-        setDarkMode={setIsDarkMode}
+        setDarkmode={setIsDarkmode}
       >
         <div className="mx-4 mb-16 md:mx-0" id="gasprice">
           <div className="max-w-4xl mx-auto">
@@ -294,7 +294,7 @@ const Home = () => {
                       text: "Gwei",
                     },
                     grid: {
-                      color: isDarkMode ? "#35383f" : "#a0aabf",
+                      color: isDarkmode ? "#35383f" : "#a0aabf",
                     },
                     ticks: {
                       stepSize: 1,
@@ -302,7 +302,7 @@ const Home = () => {
                   },
                   x: {
                     grid: {
-                      color: isDarkMode ? "#35383f" : "#a0aabf",
+                      color: isDarkmode ? "#35383f" : "#a0aabf",
                     },
                   },
                 },
