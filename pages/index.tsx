@@ -35,7 +35,7 @@ const Home = () => {
   const backgroundAnimateXRef = useRef<HTMLDivElement>();
   const backgroundAnimateYRef = useRef<HTMLDivElement>();
   const [customGasUsed, setCustomGasUsed] = useState(21000);
-  const [isDarkmode, setIsDarkmode] = useState();
+  const [isDarkmode, setIsDarkmode] = useState<boolean>();
 
   useEffect(() => {
     if (priceInterval || gasInterval)

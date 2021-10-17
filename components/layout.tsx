@@ -9,7 +9,7 @@ import ReactGA from "react-ga";
 function Layout({ title, setDarkmode, children }: LayoutProps) {
   const [isDarkmode, setIsDarkmode] = useState(false);
 
-  const toggleDarkmode = (darkmode) => {
+  const toggleDarkmode = (darkmode: boolean) => {
     if (darkmode) {
       document.documentElement.classList.add("dark");
       document.querySelector("html").style.backgroundColor =
