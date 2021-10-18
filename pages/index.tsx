@@ -189,7 +189,7 @@ const Home = () => {
             </h1>
           </div>
         </div>
-        <div className="hidden max-w-4xl mx-auto mb-16">
+        <div className="max-w-4xl mx-auto mb-16">
           <a href="https://gravityfinance.io">
             <img
               className="hidden m-auto sm:block"
@@ -202,6 +202,16 @@ const Home = () => {
               alt="Gravity Finance Banner"
             />
           </a>
+          <p className="mt-2 text-lg text-center text-secondaryTextLight dark:text-secondaryTextDark">
+            Advertise here,{" "}
+            <a
+              className="underline text-accentText"
+              href="mailto:julian@pufler.dev"
+            >
+              contact us
+            </a>
+            .
+          </p>
         </div>
         <div className="mx-4 mb-16 md:mx-0" id="history">
           <div className="flex flex-col justify-center mb-8 sm:items-center sm:flex-row">
@@ -262,7 +272,6 @@ const Home = () => {
                 ],
               }}
               options={{
-                aspectRatio: 1.5,
                 plugins: {
                   tooltip: {
                     callbacks: {
